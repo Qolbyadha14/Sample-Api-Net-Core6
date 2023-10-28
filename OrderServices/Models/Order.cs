@@ -30,6 +30,6 @@ namespace OrderServices.Models
         public string? Gender { get; set; }
         public DateTime? Bod { get; set; }
 
-        public List<OrderDetail> OrderDetails { get; set; } = null!;
+        public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
     }
 }
