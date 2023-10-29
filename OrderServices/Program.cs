@@ -1,4 +1,6 @@
+using System.Reflection;
 using FluentValidation;
+using Microsoft.OpenApi.Models;
 using OrderServices.Database;
 using OrderServices.DataTransferObject;
 using OrderServices.Services;
@@ -18,7 +20,18 @@ builder.Services.AddScoped<IValidator<CreateOrderDTO>, OrderValidator>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddServer(new OpenApiServer()
+    {
+        Url = "/api",
+    });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "API SERVICES", Version = "v1" });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
@@ -26,7 +39,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API SERVICES V1");
+        c.DefaultModelsExpandDepth(-1); // menghapus schema
+
+    });
 }
 
 app.UseHttpsRedirection();
