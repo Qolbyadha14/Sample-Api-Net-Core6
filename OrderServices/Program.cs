@@ -3,7 +3,6 @@ using OrderServices.Database;
 using OrderServices.DataTransferObject;
 using OrderServices.Services;
 using OrderServices.Validation;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
