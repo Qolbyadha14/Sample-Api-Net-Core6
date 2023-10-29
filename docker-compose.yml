@@ -67,6 +67,8 @@ services:
         build:
           context: .
           dockerfile: OrderServices/Dockerfile
+          args:
+            - ASPNETCORE_ENVIRONMENT=Development
       
         pull_policy: missing
         healthcheck:
