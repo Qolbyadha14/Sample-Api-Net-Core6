@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+    app_trafeik:
+        command:
+            - "--api.insecure=true"
+            - "--api.dashboard=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.web2.address=:8070"
+            - "--entrypoints.web3.address=:8071"
+            - "--log.filePath=/opt/traefik_2.log"
+            - "--log.level=WARN"
+            - "--accesslog=true"
+            - "--accesslog.filepath=/opt/access_2.log"
+            - "--accesslog.bufferingsize=256"
+            - "--metrics.prometheus=true"
+            - "--metrics.prometheus.addrouterslabels=true"
+            - "--entryPoints.metrics.address=:8073"
+            - "--metrics.prometheus.entryPoint=metrics"
+            - "--ping=true"
+        ports:
+            - "8071:8087"
+            - "8070:8070"
+            - "8071:8071"
+            - "8073:8073"
+        networks:
+            - app_network
+    
+    api_service:
+        networks:
+          - app_network
+        volumes:
+          - /var/log/app_trafeik/dev/:/src/app/logs
+          - /var/log/app_trafeik/dev/:/var/logs
+
+
+networks:
+  app_network:
+    driver: bridge
+    external: true
