@@ -1,5 +1,4 @@
-﻿using api.prostasia.id.Config;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OrderServices.Controllers
