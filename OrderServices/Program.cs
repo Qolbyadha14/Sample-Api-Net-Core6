@@ -42,7 +42,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API SERVICES V1");
-        c.DefaultModelsExpandDepth(-1); // menghapus schema
 
     });
 }
